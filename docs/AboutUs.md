@@ -9,51 +9,56 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### John Doe
 
-<img src="images/johndoe.png" width="200px">
+### Ngo Hoang Nhat Minh
 
-[[homepage](http://www.comp.nus.edu.sg/~damithch)]
-[[github](https://github.com/johndoe)]
+<img src="images/ngohoangnhatminh.png" width="200px">
+
+[[github](http://github.com/ngohoangnhatminh)]
 [[portfolio](team/johndoe.md)]
 
-* Role: Project Advisor
+- Role: Documentation + In charge of Storage
+- Responsibilities: Responsible for the quality of various project documents.
 
-### Jane Doe
 
-<img src="images/johndoe.png" width="200px">
+### Jiong Rui
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+<img src="images/jiru-code.png" width="200px">
 
-* Role: Team Lead
-* Responsibilities: UI
-
-### Johnny Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
-
-* Role: Developer
-* Responsibilities: Data
-
-### Jean Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
+[[github](https://github.com/jiru-code)]
 [[portfolio](team/johndoe.md)]
 
 * Role: Developer
-* Responsibilities: Dev Ops + Threading
+* Responsibilities: Testing and Code Quality
 
-### James Doe
+### Tan Guan Lin
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/tan-guan-lin.png" width="200px">
 
-[[github](http://github.com/johndoe)]
+[[github](https://github.com/tan-guan-lin)]
 [[portfolio](team/johndoe.md)]
 
+Roles: 
+- Scheduling and tracking
+- In charge of:
+    - Storage
+
+### Xinxiang
+
+<img src="images/xinxiang0257.png" width="200px">
+
+[[github](http://github.com/xinxiang0257)]
+[[portfolio](team/xinxiang.md)] 
+
 * Role: Developer
-* Responsibilities: UI
+* Responsibilities: Integration
+
+### Truong Kim Mai
+
+<img src="images/coberculidae.png" width="200px">
+
+[[github](https://github.com/coberculidae)]
+[[portfolio](team/johndoe.md)]
+
+* Role: Team lead, Deliverables & deadlines
+
