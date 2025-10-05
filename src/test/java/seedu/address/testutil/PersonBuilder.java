@@ -8,8 +8,8 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
 import seedu.address.model.person.Remark;
+import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
 /**
@@ -98,6 +98,9 @@ public class PersonBuilder {
         return new Person(name, phone, email, address, remark, tags);
     }
 
+    /**
+     * Sets the {@code Remark} of the {@code Person} that we are building.
+     */
     public PersonBuilder withRemark(String remark) {
         this.remark = new Remark(remark);
         return this;
