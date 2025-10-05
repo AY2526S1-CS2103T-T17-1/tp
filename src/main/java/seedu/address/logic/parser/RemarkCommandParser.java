@@ -44,4 +44,5 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
             throw new ParseException("Input cannot be null.");
         }
     }
+    
 }

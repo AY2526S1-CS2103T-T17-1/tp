@@ -103,7 +103,7 @@ public class AddressBookParserTest {
         // Assert that the parsed command equals a manually constructed command
         assertEquals(new RemarkCommand(INDEX_FIRST_PERSON, remark), command);
     }
-    
+
     @Test
     public void parseCommand_unrecognisedInput_throwsParseException() {
         assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE), ()
