@@ -10,6 +10,8 @@ import seedu.address.model.appointment.Appointment;
 import seedu.address.model.appointment.UniqueAppointmentList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.prescription.Prescription;
+import seedu.address.model.prescription.UniquePrescriptionList;
 
 /**
  * Wraps all data at the address-book level.
@@ -19,10 +21,12 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
     private final UniqueAppointmentList appointments;
+    private final UniquePrescriptionList prescriptions;
 
     {
         persons = new UniquePersonList();
         appointments = new UniqueAppointmentList();
+        prescriptions = new UniquePrescriptionList();
     }
 
     /**
@@ -91,6 +95,33 @@ public class AddressBook implements ReadOnlyAddressBook {
         appointments.remove(appointment);
     }
 
+    //// prescription-level operations
+    /**
+     * TODO: add javadoc
+     * @param prescription
+     * @return
+     */
+    public boolean hasPrescription(Prescription prescription) {
+        requireNonNull(prescription);
+        return prescriptions.contains(prescription);
+    }
+
+    /**
+     * TODO: add javadoc
+     * @param prescription
+     */
+    public void addPrescription(Prescription prescription) {
+        prescriptions.add(prescription);
+    }
+
+    /**
+     * TODO: add javadoc
+     * @param prescription
+     */
+    public void removePrescription(Prescription prescription) {
+        prescriptions.remove(prescription);
+    }
+
     @Override
     public ObservableList<Person> getPersonList() {
         return persons.asUnmodifiableObservableList();
@@ -99,6 +130,15 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public ObservableList<Appointment> getAppointmentList() {
         return appointments.asUnmodifiableObservableList();
+    }
+
+    /**
+     * TODO: add javadoc
+     * @return
+     */
+    @Override
+    public ObservableList<Prescription> getPrescriptionList() {
+        return prescriptions.asUnmodifiableObservableList();
     }
 
     @Override

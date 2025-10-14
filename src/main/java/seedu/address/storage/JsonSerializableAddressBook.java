@@ -2,7 +2,6 @@ package seedu.address.storage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,28 +21,38 @@ public class JsonSerializableAddressBook {
 
     public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
     public static final String MESSAGE_DUPLICATE_APPOINTMENT = "Appointments list contains duplicate appointment(s).";
+    public static final String MESSAGE_DUPLICATE_PRESCRIPTION = "Prescription list contains duplicate prescription(s).";
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
     private final List<JsonAdaptedAppointment> appointments = new ArrayList<>();
+    private final List<JsonAdaptedPrescription> prescriptions = new ArrayList<>();
 
     @JsonCreator
     public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons,
-                                       @JsonProperty("appointments") List<JsonAdaptedAppointment> appointments) {
+                                       @JsonProperty("appointments") List<JsonAdaptedAppointment> appointments,
+                                       @JsonProperty("prescriptions") List<JsonAdaptedPrescription> prescriptions
+                                       ) {
         if (persons != null) {
             this.persons.addAll(persons);
         }
         if (appointments != null) {
             this.appointments.addAll(appointments);
         }
+        if (prescriptions != null) {
+            this.prescriptions.addAll(prescriptions);
+        }
     }
 
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
         persons.addAll(source.getPersonList().stream()
                 .map(JsonAdaptedPerson::new)
-                .collect(Collectors.toList()));
+                .toList());
         appointments.addAll(source.getAppointmentList().stream()
                 .map(JsonAdaptedAppointment::new)
-                .collect(Collectors.toList()));
+                .toList());
+        prescriptions.addAll(source.getPrescriptionList().stream()
+                .map(JsonAdaptedPrescription::new)
+                .toList());
     }
 
     /**
