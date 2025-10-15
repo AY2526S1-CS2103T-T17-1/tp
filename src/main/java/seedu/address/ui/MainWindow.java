@@ -1,5 +1,8 @@
 package seedu.address.ui;
 
+import static seedu.address.logic.commands.ViewType.PERSON_LIST;
+import static seedu.address.logic.commands.ViewType.PRESCRIPTION_LIST;
+
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
@@ -186,6 +189,18 @@ public class MainWindow extends UiPart<Stage> {
                 handleExit();
             }
 
+            switch (commandResult.getViewType()) {
+            case PRESCRIPTION_LIST:
+                showPrescriptionListPanel();
+                break;
+            case PERSON_LIST:
+                showPersonListPanel();
+                break;
+            default:
+                break;
+            }
+
+
             return commandResult;
         } catch (CommandException | ParseException e) {
             logger.info("An error occurred while executing command: " + commandText);
@@ -193,4 +208,17 @@ public class MainWindow extends UiPart<Stage> {
             throw e;
         }
     }
+
+    private void showPrescriptionListPanel() {
+        personListPanelPlaceholder.getChildren().clear();
+        PrescriptionListPanel prescriptionListPanel = new PrescriptionListPanel(logic.getFilteredPrescriptionList());
+        personListPanelPlaceholder.getChildren().add(prescriptionListPanel.getRoot());
+    }
+
+    private void showPersonListPanel() {
+        personListPanelPlaceholder.getChildren().clear();
+        personListPanel = new PersonListPanel(logic.getFilteredPersonList());
+        personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+    }
+
 }

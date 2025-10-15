@@ -16,5 +16,8 @@ public interface ReadOnlyAddressBook {
      */
     ObservableList<Appointment> getAppointmentList();
 
+    /**
+     * Returns an unmodifiable view of the prescription list.
+     */
     ObservableList<Prescription> getPrescriptionList();
 }

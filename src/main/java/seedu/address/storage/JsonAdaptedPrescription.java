@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import seedu.address.model.prescription.Prescription;
 
 /**
- * TODO: add javadoc
+ * Jackson-friendly version of {@link Prescription}.
  */
 public class JsonAdaptedPrescription {
     private final String patientId;
@@ -20,14 +20,7 @@ public class JsonAdaptedPrescription {
     private final String note;
 
     /**
-     * TODO: add javadoc
-     * @param patientId
-     * @param medicationName
-     * @param dosage
-     * @param frequency
-     * @param startDate
-     * @param duration
-     * @param note
+     * Constructs a {@code JsonAdaptedPrescription} with the given person details.
      */
     @JsonCreator
     public JsonAdaptedPrescription(@JsonProperty("patientId") String patientId,
@@ -36,7 +29,8 @@ public class JsonAdaptedPrescription {
                                    @JsonProperty("frequency") Integer frequency,
                                    @JsonProperty("startDate") LocalDateTime startDate,
                                    @JsonProperty("duration") Integer duration,
-                                   @JsonProperty("note") String note) {
+                                   @JsonProperty("note") String note
+                                   ) {
         this.patientId = patientId;
         this.medicationName = medicationName;
         this.dosage = dosage;
@@ -47,24 +41,23 @@ public class JsonAdaptedPrescription {
     }
 
     /**
-     * TODO: add javadoc
-     * @param p
+     * Converts a given {@code Appointment} into this class for Jackson use.
      */
-    public JsonAdaptedPrescription(Prescription p) {
-        this.patientId = p.getPatientId();
-        this.medicationName = p.getMedicationName();
-        this.dosage = p.getDosage();
-        this.frequency = p.getFrequency();
-        this.startDate = p.getStartDate();
-        this.duration = p.getDuration();
-        this.note = p.getNote();
+    public JsonAdaptedPrescription(Prescription source) {
+        this.patientId = source.getPatientId();
+        this.medicationName = source.getMedicationName();
+        this.dosage = source.getDosage();
+        this.frequency = source.getFrequency();
+        this.startDate = source.getStartDate();
+        this.duration = source.getDuration();
+        this.note = source.getNote();
     }
 
     /**
-     * TODO: add javadoc
-     * @return
+     * Converts this Jackson-friendly object back into the model's {@code Appointment} object.
      */
     public Prescription toModelType() {
-        return new Prescription(patientId, medicationName, dosage, frequency, startDate, duration, note);
+        return new Prescription(patientId, medicationName, dosage, frequency,
+            startDate, duration, note);
     }
 }

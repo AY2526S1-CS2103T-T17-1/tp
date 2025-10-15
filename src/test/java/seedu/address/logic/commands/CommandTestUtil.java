@@ -60,6 +60,15 @@ public class CommandTestUtil {
     public static final EditCommand.EditPersonDescriptor DESC_AMY;
     public static final EditCommand.EditPersonDescriptor DESC_BOB;
 
+    // Prescriptions
+    public static final String VALID_PATIENT_ID_P10293 = "P-10293";
+    public static final String VALID_PATIENT_ID_P20485 = "P-20485";
+    public static final String INVALID_PATIENT_ID = "10293";
+
+    public static final String PATIENT_DESC_P10293 = " /patient " + VALID_PATIENT_ID_P10293;
+    public static final String PATIENT_DESC_P20485 = " /patient " + VALID_PATIENT_ID_P20485;
+    public static final String INVALID_PATIENT_DESC = " /patient " + INVALID_PATIENT_ID;
+
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)

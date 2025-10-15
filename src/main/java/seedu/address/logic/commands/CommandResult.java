@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.commands.ViewType.PERSON_LIST;
 
 import java.util.Objects;
 
@@ -19,21 +20,36 @@ public class CommandResult {
     /** The application should exit. */
     private final boolean exit;
 
+    private final ViewType viewType;
+
     /**
      * Constructs a {@code CommandResult} with the specified fields.
+     */
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, ViewType viewType) {
+        this.feedbackToUser = requireNonNull(feedbackToUser);
+        this.showHelp = showHelp;
+        this.exit = exit;
+        this.viewType = viewType;
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the specified fields with ViewType set to the
+     * default of {@code PERSON_LIST}
      */
     public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
+        this.viewType = PERSON_LIST;
     }
+
 
     /**
      * Constructs a {@code CommandResult} with the specified {@code feedbackToUser},
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false);
+        this(feedbackToUser, false, false, PERSON_LIST);
     }
 
     public String getFeedbackToUser() {
@@ -63,6 +79,10 @@ public class CommandResult {
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
                 && showHelp == otherCommandResult.showHelp
                 && exit == otherCommandResult.exit;
+    }
+
+    public ViewType getViewType() {
+        return viewType;
     }
 
     @Override

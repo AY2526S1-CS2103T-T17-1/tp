@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
@@ -21,11 +22,28 @@ import javafx.collections.ObservableList;
 import seedu.address.model.appointment.Appointment;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.prescription.Prescription;
 import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.PrescriptionBuilder;
 
 public class AddressBookTest {
 
     private final AddressBook addressBook = new AddressBook();
+    private Prescription prescription;
+
+    @BeforeEach
+    public void setUp() {
+        // Sample prescription
+        prescription = new PrescriptionBuilder()
+            .withPatientId("P-10293")
+            .withMedicationName("Paracetamol")
+            .withDosage(500f)
+            .withFrequency(3)
+            .withDuration(7)
+            .withNote("Take after meals")
+            .build();
+    }
+
 
     @Test
     public void constructor() {
@@ -98,6 +116,7 @@ public class AddressBookTest {
     private static class AddressBookStub implements ReadOnlyAddressBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
         private final ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        private final ObservableList<Prescription> prescriptions = FXCollections.observableArrayList();
 
         AddressBookStub(Collection<Person> persons) {
             this.persons.setAll(persons);
@@ -112,7 +131,65 @@ public class AddressBookTest {
         public ObservableList<Appointment> getAppointmentList() {
             return appointments;
         }
+
+        @Override
+        public ObservableList<Prescription> getPrescriptionList() {
+            return prescriptions;
+        }
     }
+
+    /////////// Prescription tests ///////////
+
+    @Test
+    public void hasPrescription_prescriptionNotInAddressBook_returnsFalse() {
+        assertFalse(addressBook.hasPrescription(prescription));
+    }
+
+    @Test
+    public void hasPrescription_prescriptionInAddressBook_returnsTrue() {
+        addressBook.addPrescription(prescription);
+        assertTrue(addressBook.hasPrescription(prescription));
+    }
+
+    @Test
+    public void addPrescription_prescriptionIsAdded_success() {
+        addressBook.addPrescription(prescription);
+        assertTrue(addressBook.hasPrescription(prescription));
+    }
+
+    @Test
+    public void removePrescription_prescriptionIsRemoved_success() {
+        addressBook.addPrescription(prescription);
+        addressBook.removePrescription(prescription);
+        assertFalse(addressBook.hasPrescription(prescription));
+    }
+
+    @Test
+    public void setPrescription_nullEditedPrescription_throwsNullPointerException() {
+        addressBook.addPrescription(prescription);
+        assertThrows(NullPointerException.class, () -> addressBook.setPrescription(prescription, null));
+    }
+
+    @Test
+    public void setPrescription_prescriptionNotInAddressBook_throwsPrescriptionNotFoundException() {
+        Prescription anotherPrescription = new PrescriptionBuilder().withMedicationName("Ibuprofen").build();
+        assertThrows(seedu.address.model.prescription.exceptions.PrescriptionNotFoundException.class, () ->
+            addressBook.setPrescription(anotherPrescription, prescription));
+    }
+
+    @Test
+    public void setPrescription_success() {
+        addressBook.addPrescription(prescription);
+
+        Prescription editedPrescription = new PrescriptionBuilder(prescription)
+            .withDosage(750f)
+            .build();
+        addressBook.setPrescription(prescription, editedPrescription);
+
+        assertTrue(addressBook.hasPrescription(editedPrescription));
+        assertFalse(addressBook.hasPrescription(prescription));
+    }
+
 
 
 }

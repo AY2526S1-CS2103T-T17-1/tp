@@ -15,7 +15,6 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
     private GuiSettings guiSettings = new GuiSettings();
     private Path addressBookFilePath = Paths.get("data" , "addressbook.json");
-    private Path prescriptionsFilePath = Paths.get("data", "prescriptions.json");
 
     /**
      * Creates a {@code UserPrefs} with default values.
@@ -36,7 +35,6 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     public void resetData(ReadOnlyUserPrefs newUserPrefs) {
         requireNonNull(newUserPrefs);
         setGuiSettings(newUserPrefs.getGuiSettings());
-        setPrescriptionsFilePath(newUserPrefs.getPrescriptionsFilePath());
         setAddressBookFilePath(newUserPrefs.getAddressBookFilePath());
     }
 
@@ -58,15 +56,6 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         this.addressBookFilePath = addressBookFilePath;
     }
 
-    public Path getPrescriptionsFilePath() {
-        return prescriptionsFilePath;
-    }
-
-    public void setPrescriptionsFilePath(Path prescriptionsFilePath) {
-        requireNonNull(prescriptionsFilePath);
-        this.prescriptionsFilePath = prescriptionsFilePath;
-    }
-
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -80,13 +69,12 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
         UserPrefs otherUserPrefs = (UserPrefs) other;
         return guiSettings.equals(otherUserPrefs.guiSettings)
-                && addressBookFilePath.equals(otherUserPrefs.addressBookFilePath)
-                && prescriptionsFilePath.equals(otherUserPrefs.prescriptionsFilePath);
+                && addressBookFilePath.equals(otherUserPrefs.addressBookFilePath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(guiSettings, addressBookFilePath, prescriptionsFilePath);
+        return Objects.hash(guiSettings, addressBookFilePath);
     }
 
     @Override
@@ -94,7 +82,6 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         StringBuilder sb = new StringBuilder();
         sb.append("Gui Settings : " + guiSettings);
         sb.append("\nLocal data file location : " + addressBookFilePath);
-        sb.append("\nPrescriptions file location : " + prescriptionsFilePath);
         return sb.toString();
     }
 
