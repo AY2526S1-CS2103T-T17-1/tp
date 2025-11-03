@@ -105,9 +105,10 @@ public class Patient {
                 return;
             }
         }
-        
+
         throw new IllegalArgumentException("Gender must be either: MALE, FEMALE, OTHER");
     }
+
     /**
      * Returns true if both patients have the same name.
      * This defines a weaker notion of equality between two persons.
