@@ -10,6 +10,7 @@ import java.util.Objects;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Patient {
+    private static final String[] GENDERS = {"MALE", "FEMALE", "OTHER"};
 
     // all references to Tag are removed
     private final Name name;
@@ -21,9 +22,6 @@ public class Patient {
     private final String id;
     private final String lang;
     private final Address address;
-
-    private static final String[] GENDERS = {"MALE", "FEMALE", "OTHER"};
-
 
     /**
      * Every field must be present and not null.
