@@ -22,6 +22,8 @@ public class Patient {
     private final String lang;
     private final Address address;
 
+    private final String[] GENDERS = {"MALE", "FEMALE", "OTHER"};
+
 
     /**
      * Every field must be present and not null.
@@ -36,6 +38,7 @@ public class Patient {
         this.email = email;
         this.address = address;
         this.birthday = birthday;
+        isValidGender(gender);
         this.gender = gender;
         this.emergency = emergency;
         this.id = id;
@@ -96,6 +99,15 @@ public class Patient {
     }
 
 
+    void isValidGender(String gender) {
+        for (int i = 0; i < GENDERS.length; i++) {
+            if (GENDERS[i].equalsIgnoreCase(gender)) {
+                return;
+            }
+        }
+        
+        throw new IllegalArgumentException("Gender must be either: MALE, FEMALE, OTHER");
+    }
     /**
      * Returns true if both patients have the same name.
      * This defines a weaker notion of equality between two persons.
