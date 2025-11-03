@@ -38,8 +38,8 @@ public class Appointment {
         }
 
         if (!isValidDoctor(doctor)) {
-            throw new IllegalArgumentException
-                ("Doctors must be already registered. Use viewdoctors to check for the correct list.");
+            throw new IllegalArgumentException(
+                "Doctors must be already registered. Use viewdoctors to check for the correct list.");
         }
 
         this.patientName = patientName.trim();
