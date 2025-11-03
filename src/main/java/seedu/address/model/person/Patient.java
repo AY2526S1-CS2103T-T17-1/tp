@@ -22,7 +22,7 @@ public class Patient {
     private final String lang;
     private final Address address;
 
-    private final String[] GENDERS = {"MALE", "FEMALE", "OTHER"};
+    private static final String[] GENDERS = {"MALE", "FEMALE", "OTHER"};
 
 
     /**
