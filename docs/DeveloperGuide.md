@@ -114,7 +114,7 @@ How the parsing works:
 * When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
-* The appointment commands work by first routing their respective command parsers e.g. `AddAppointmentCommandParse`  to construct `AddAppointmentCommand` and `ViewAppointmentsCommand` objects.
+* The appointment commands work by first routing their respective command parsers e.g. `AddAppointmentCommandParser`  to construct `AddAppointmentCommand` and `ViewAppointmentsCommand` objects.
 * On execution, the `AddAppointmentCommand` objects validates the appointment before appending the `Appointment` to the model.
 
 ### Model component
@@ -130,10 +130,8 @@ The `Model` component,
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
-* In addition to storing patients, the model now maintains a list of Appointment objects in a UniqueAppointmentList.
+* In addition to storing patients, the model now maintains a list of `Appointment` objects in a `UniqueAppointmentList`.
 * This list is exposed through a filtered and sorted ObservableList<Appointment>, allowing the UI to automatically update when appointment data changes.
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
 
 <img src="images/BetterModelClassDiagram.png" width="450" />
 
@@ -276,7 +274,7 @@ _{Explain here how the data archiving feature will be implemented}_
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
 | Priority | As a …​                                    | I want to …​                    | So that I can…​                                            |
-| -------- | ------------------------------------------ |---------------------------------|------------------------------------------------------------|
+|----------| ------------------------------------------ |---------------------------------|------------------------------------------------------------|
 | `* * *`  | user                                   | view all patients               | see a complete list of all possible patient's information. |
 | `* * *`  | user                                       | add a patient's information     |                                                            |
 | `* * *`  | user                                       | delete a patient's information  | remove entries that I no longer need                       |
@@ -337,15 +335,18 @@ Use case ends.
 * 3a. The command format is invalid (e.g., missing parameters or incorrect prefixes).
   * 3a1. HospitalContactsXPM shows an error message indicating the correct command format:
   p-add: Prescribes medication to a patient. Parameters: p/ PATIENT m/ MEDICATION d/ DOSAGE f/ FREQUENCY dur/ DURATION.
-  Use case resumes at step 2.
+
+Use case resumes from step 2.
 
 * 3b. The specified patient does not exist.
   * 3b1. HospitalContactsXPM shows an error message indicating an invalid patient ID.
-  Use case resumes at step 2.
+
+Use case resumes from step 2.
 
 * 3c. The same prescription already exists for the patient.
   * 3c1. HospitalContactsXPM notifies the user that the prescription already exists.
-  Use case ends.
+
+Use case ends.
 
 *{More to be added}*
 

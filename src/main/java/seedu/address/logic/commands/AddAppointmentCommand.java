@@ -53,7 +53,8 @@ public class AddAppointmentCommand extends Command {
         Optional<Patient> matchedPatient = model.getAddressBook()
                 .getPatientList()
                 .stream()
-                .filter(p -> p.getName().fullName.equals(patientName))
+                .filter(p -> normalizeName(p.getName().fullName)
+                        .equals(normalizeName(patientName)))
                 .findFirst();
 
         if (matchedPatient.isEmpty()) {
@@ -77,6 +78,10 @@ public class AddAppointmentCommand extends Command {
 
         model.addAppointment(toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+    }
+
+    private static String normalizeName(String name) {
+        return name.trim().replaceAll("\\s+", " ").toLowerCase();
     }
 
     @Override

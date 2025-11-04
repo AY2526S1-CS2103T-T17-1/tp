@@ -4,7 +4,7 @@ title: User Guide
 ---
 ## Introduction
 
-HospitalAdminProMax is a **desktop app built on AddressBook Level 3 (AB3) to help manage patient details in a high-volume patient environment**. We leverage the optimised nature of AB3 on the Command Line Interface (CLI) so if you can type fast, AB3 retrieves your patient details faster than traditional GUI apps. There still remains the benefits of a Graphical User Interface.
+HospitalContactsXPM is a **desktop app built on AddressBook Level 3 (AB3) to help manage patient details in a high-volume patient environment**. We leverage the optimised speed of HospitalContactsXPM on typing interface so if you can type fast, HospitalContactsXPM retrieves your patient details faster than traditional Mouse-and-Click apps. There still remains the benefits of a visual interface.
 
 ### What We Assume You Know
 - Basic computer skills and familiarity with typing commands (preferably a fast typist)
