@@ -36,7 +36,7 @@ public class Patient {
         this.email = email;
         this.address = address;
         this.birthday = birthday;
-        isValidGender(gender);
+        // isValidGender(gender);
         this.gender = gender;
         this.emergency = emergency;
         this.id = id;
