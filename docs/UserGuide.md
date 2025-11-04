@@ -2,10 +2,21 @@
 layout: page
 title: User Guide
 ---
+## Introduction
 
-HospitalContactsXPM is a **desktop app built on AddressBook Level 3 (AB3) to help manage patient details in a high-volume patient environment**. We leverage the optimised speed of HospitalContactsXPM on typing interface so if you can type fast, HospitalContactsXPM retrieves your patient details faster than traditional Mouse-and-Click apps. There still remains the benefits of a visual interface.
- 
-* Table of Contents 
+HospitalAdminProMax is a **desktop app built on AddressBook Level 3 (AB3) to help manage patient details in a high-volume patient environment**. We leverage the optimised nature of AB3 on the Command Line Interface (CLI) so if you can type fast, AB3 retrieves your patient details faster than traditional GUI apps. There still remains the benefits of a Graphical User Interface.
+
+### What We Assume You Know
+- Basic computer skills and familiarity with typing commands (preferably a fast typist)
+- Understanding of common medical terms and patient data fields
+- Experience with desktop applications and file management
+
+### Key Benefits
+- **Speed**: Retrieve patient information faster than clicking through GUI menus
+- **Accuracy**: Structured data entry reduces errors in patient records
+- **Organization**: Keep patient information, appointments, and prescriptions in one place
+
+* Table of Contents
 {:toc}
 
 ---
@@ -19,7 +30,7 @@ HospitalContactsXPM is a **desktop app built on AddressBook Level 3 (AB3) to hel
 
 3. Copy the file to the folder you want to use as the _home folder_ for your HospitalContactsXPM.
 
-4. Open the command terminal, type `cd path/to/folder` into the folder you put the jar file in, and use the `java -jar hospitalcontactsxpm.jar` command to run the application.<br>
+4. Open the command terminal, type `cd PATH_TO_FOLDER`(`PATH_TO_FOLDER` is the path to the folder containing the downloaded jar file) into the folder you put the jar file in, and use the `java -jar hospitalcontactsxpm.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
 
 ![Ui_list](images/UI_list_patients.png)
@@ -43,6 +54,15 @@ _view appointments_
    - `clear` : Deletes all contacts.
 
    - `exit` : Exits the app.
+
+**For First-Time Users:**
+We recommend practicing with these sample commands in order:
+* `i-view n/Alex Yeoh` - View a patient's details
+* `a-view n/Alex Yeoh` - Check their appointments
+* `p-view n/Alex Yeoh` - Review their medications
+* `doctors` - See available doctors
+
+This gives you a complete picture of how patient data is organized in the system.
 
 6. Refer to the [Features](#features) below for details of each command.
 
@@ -261,6 +281,25 @@ Furthermore, certain edits can cause the AddressBook to behave in unexpected way
 _Details coming soon ..._
 
 ---
+
+## Common Workflows
+
+### New Patient Registration
+1. `i-add n/NAME dob/BIRTHDAY g/GENDER p/PHONE e/EMAIL a/ADDRESS em/EMERGENCY id/ID_NUMBER lang/LANGUAGE`
+2. `a-add n/PATIENT_NAME d/DOCTOR_NAME t/YYYY-MM-DD HH:MM [note/NOTE]`
+3. `p-add n/PATIENT_NAME m/MEDICATION_NAME d/DOSAGE f/FREQUENCY dur/DURATION`
+
+### Daily Patient Check-in
+1. `i-view n/PATIENT_NAME` - Review patient information
+2. `a-view n/PATIENT_NAME` - Check today's appointments
+3. `p-view n/PATIENT_NAME` - Review current medications
+
+### Medication Management
+1. `p-view n/PATIENT_NAME` - Check existing prescriptions
+2. `p-add n/PATIENT_NAME m/MEDICATION_NAME d/DOSAGE f/FREQUENCY dur/DURATION` - Add new prescription
+3. `p-delete INDEX` - Remove outdated prescriptions (after viewing list)
+
+--------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
 
