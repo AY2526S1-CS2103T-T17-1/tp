@@ -11,7 +11,6 @@ import java.util.Optional;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.appointment.Appointment;
-import seedu.address.model.person.Patient;
 
 /**
  * Views all appointments for a given patient, optionally within a date range.
@@ -54,14 +53,18 @@ public class ViewAppointmentsCommand extends Command {
         this.toDate = toDate;
     }
 
+    private static String normalizeName(String name) {
+        return name.trim().replaceAll("\\s+", " ").toLowerCase();
+    }
+
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
         boolean patientExists = model.getAddressBook().getPatientList()
                 .stream()
-                .map(Patient::getName)
-                .anyMatch(n -> n.fullName.equals(patientName));
+                .map(p -> p.getName().fullName)
+                .anyMatch(name -> normalizeName(name).equals(normalizeName(patientName)));
 
         if (!patientExists) {
             throw new CommandException(String.format(MESSAGE_PATIENT_NOT_FOUND, patientName));
@@ -73,7 +76,7 @@ public class ViewAppointmentsCommand extends Command {
 
         // Filter predicate: match patient + optional range
         model.updateFilteredAppointmentList(appt -> {
-            if (!appt.getPatientName().equals(patientName)) {
+            if (!normalizeName(appt.getPatientName()).equals(normalizeName(patientName))) {
                 return false;
             }
             LocalDateTime dt = appt.getDateTime();

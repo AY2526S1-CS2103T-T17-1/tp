@@ -66,10 +66,14 @@ public class Appointment {
             return false;
         }
         final Appointment otherAppointment = (Appointment) other;
-        return patientName.equals(otherAppointment.patientName)
-                && dateTime.equals(otherAppointment.dateTime)
-                && doctor.equals(otherAppointment.doctor)
-                && reason.equals(otherAppointment.reason);
+        return normalizeName(patientName).equals(normalizeName(otherAppointment.patientName))
+            && doctor.equalsIgnoreCase(otherAppointment.doctor)
+            && dateTime.equals(otherAppointment.dateTime)
+            && reason.equals(otherAppointment.reason);
+    }
+
+    private static String normalizeName(String name) {
+        return name.trim().replaceAll("\\s+", " ").toLowerCase();
     }
 
     @Override
