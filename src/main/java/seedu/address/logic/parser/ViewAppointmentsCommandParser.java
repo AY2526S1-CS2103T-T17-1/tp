@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
@@ -50,9 +51,13 @@ public class ViewAppointmentsCommandParser implements Parser<ViewAppointmentsCom
             return Optional.empty();
         }
         try {
-            return Optional.of(LocalDate.parse(raw.get()));
+            DateTimeFormatter strictFormatter = DateTimeFormatter
+                    .ofPattern("uuuu-MM-dd")
+                    .withResolverStyle(java.time.format.ResolverStyle.STRICT);
+            return Optional.of(LocalDate.parse(raw.get(), strictFormatter));
         } catch (DateTimeParseException e) {
-            throw new ParseException("Dates must be in YYYY-MM-DD format.");
+            throw new ParseException(
+                "Invalid date. Please use format YYYY-MM-DD and ensure it is a real calendar date.");
         }
     }
 }

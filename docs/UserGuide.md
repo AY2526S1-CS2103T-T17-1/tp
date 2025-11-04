@@ -4,7 +4,7 @@ title: User Guide
 ---
 ## Introduction
 
-HospitalAdminProMax is a **desktop app built on AddressBook Level 3 (AB3) to help manage patient details in a high-volume patient environment**. We leverage the optimised nature of AB3 on the Command Line Interface (CLI) so if you can type fast, AB3 retrieves your patient details faster than traditional GUI apps. There still remains the benefits of a Graphical User Interface.
+HospitalContactsXPM is a **desktop app built on AddressBook Level 3 (AB3) to help manage patient details in a high-volume patient environment**. We leverage the optimised speed of HospitalContactsXPM on typing interface so if you can type fast, HospitalContactsXPM retrieves your patient details faster than traditional Mouse-and-Click apps. There still remains the benefits of a visual interface.
 
 ### What We Assume You Know
 - Basic computer skills and familiarity with typing commands (preferably a fast typist)
@@ -135,9 +135,9 @@ Format: `i-add n/NAME dob/BIRTHDAY g/GENDER p/PHONE e/EMAIL a/ADDRESS em/EMERGEN
 * Currently, the app does not allow duplication in names.
 
 Examples:
-* `i-add n/John Tan dob/1990-05-15 g/Male p/98765432 e/johntan@example.com a/123 Main Street em/Jane Tan - 91234567
+* `i-add n/John Tan dob/1990-05-15 g/M p/98765432 e/johntan@example.com a/123 Main Street em/Jane Tan - 91234567
     id/S1234567A lang/English`
-* `i-add n/Sarah Lim dob/1985-12-03 g/Female p/91234567 e/sarahlim@email.com a/456 Orchard Road em/David Lim - 87654321
+* `i-add n/Sarah Lim dob/1985-12-03 g/F p/91234567 e/sarahlim@email.com a/456 Orchard Road em/David Lim - 87654321
     id/T9876543B lang/Chinese`
 
 ### Deleting a patient : `i-delete`
