@@ -345,7 +345,7 @@ Use case resumes from step 2.
 
 * 3c. The same prescription already exists for the patient.
   * 3c1. HospitalContactsXPM notifies the user that the prescription already exists.
-  
+
 Use case ends.
 
 *{More to be added}*

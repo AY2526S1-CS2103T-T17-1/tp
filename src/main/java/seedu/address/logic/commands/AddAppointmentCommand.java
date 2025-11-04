@@ -71,7 +71,7 @@ public class AddAppointmentCommand extends Command {
     private static String normalizeName(String name) {
         return name.trim().replaceAll("\\s+", " ").toLowerCase();
     }
-    
+
     @Override
     public boolean equals(Object other) {
         return other == this

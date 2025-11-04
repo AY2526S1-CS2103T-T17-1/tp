@@ -74,7 +74,7 @@ public class Appointment {
     private static String normalizeName(String name) {
         return name.trim().replaceAll("\\s+", " ").toLowerCase();
     }
-    
+
     @Override
     public int hashCode() {
         return Objects.hash(patientName, dateTime, doctor, reason);

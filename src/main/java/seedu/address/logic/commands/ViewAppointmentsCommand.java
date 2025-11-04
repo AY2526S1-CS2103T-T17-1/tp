@@ -56,7 +56,7 @@ public class ViewAppointmentsCommand extends Command {
     private static String normalizeName(String name) {
         return name.trim().replaceAll("\\s+", " ").toLowerCase();
     }
-    
+
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
