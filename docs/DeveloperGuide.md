@@ -599,6 +599,17 @@ Use case ends.
 
 --------------------------------------------------------------------------------------------------------------------
 
+## **Known bugs**
+
+1. Email field does not check for existence of top-level domain
+2. Cannot edit all fields of patient
+3. The a-delete command does not accept time inputs with minutes included
+4. Prescription's Duration does not validate negative number
+5. Prescription's Frequency does not validate negative number
+6. Prescription's Dosage does not validate negative number
+
+--------------------------------------------------------------------------------------------------------------------
+
 ## **Appendix: Instructions for manual testing**
 
 Given below are instructions to test the app manually.
