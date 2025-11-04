@@ -5,7 +5,7 @@ title: User Guide
 
 HospitalContactsXPM is a **desktop app built on AddressBook Level 3 (AB3) to help manage patient details in a high-volume patient environment**. We leverage the optimised speed of HospitalContactsXPM on typing interface so if you can type fast, HospitalContactsXPM retrieves your patient details faster than traditional Mouse-and-Click apps. There still remains the benefits of a visual interface.
  
-*Table of Contents 
+* Table of Contents 
 {:toc}
 
 ---
