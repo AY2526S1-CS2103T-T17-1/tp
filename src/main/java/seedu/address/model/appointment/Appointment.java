@@ -5,6 +5,8 @@ import static java.util.Objects.requireNonNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import seedu.address.logic.commands.ViewDoctorsCommand;
+
 /**
  * Represents an Appointment in the hospital system.
  * Guarantees: all fields are non-null and immutable once created.
@@ -33,6 +35,11 @@ public class Appointment {
 
         if (patientName.isBlank() || doctor.isBlank()) {
             throw new IllegalArgumentException("Patient Name and Doctor cannot be blank.");
+        }
+
+        if (!isValidDoctor(doctor)) {
+            throw new IllegalArgumentException(
+                "Doctors must be already registered. Use viewdoctors to check for the correct list.");
         }
 
         this.patientName = patientName.trim();
@@ -85,5 +92,15 @@ public class Appointment {
     public String toString() {
         return String.format("Appointment[patient='%s', dateTime=%s, doctor='%s', reason='%s']",
                 patientName, dateTime, doctor, reason);
+    }
+
+    boolean isValidDoctor(String doctor) {
+        for (int i = 0; i < ViewDoctorsCommand.DOCTORS.length; i++) {
+            if (ViewDoctorsCommand.DOCTORS[i].equalsIgnoreCase(doctor)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
