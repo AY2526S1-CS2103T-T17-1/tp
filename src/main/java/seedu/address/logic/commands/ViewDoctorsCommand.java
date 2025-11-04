@@ -13,9 +13,9 @@ public class ViewDoctorsCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": View all doctors available. ";
 
     public static final String[] DOCTORS = {
-        "Anderson",
-        "Boon",
-        "Choi"
+        "Dr Anderson",
+        "Dr Boon",
+        "Dr Choi"
     };
 
     @Override
@@ -26,7 +26,7 @@ public class ViewDoctorsCommand extends Command {
     private String showListOfDoctors() {
         String doctors = "";
         for (int i = 1; i <= DOCTORS.length; i++) {
-            doctors += i + ". Dr. " + DOCTORS[i - 1] + "\n";
+            doctors += i + ". " + DOCTORS[i - 1] + "\n";
         }
         return doctors;
     }
