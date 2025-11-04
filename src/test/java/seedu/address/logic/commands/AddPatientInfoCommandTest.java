@@ -142,7 +142,7 @@ public class AddPatientInfoCommandTest {
         Patient patientFemale = new Patient(
                 new Name("Jane Female"),
                 new Birthday(LocalDateTime.of(1991, 2, 2, 0, 0)),
-                "Female",
+                "F",
                 new Phone("91234562"),
                 new Email("female@example.com"),
                 new Address("Address 2"),
