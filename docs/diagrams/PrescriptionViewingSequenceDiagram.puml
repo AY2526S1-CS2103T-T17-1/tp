@@ -1,0 +1,21 @@
+@startuml
+hide footbox
+title Prescription Viewing Sequence
+
+actor "User" as User
+  participant "UI" as UI
+  participant "Logic" as Logic
+  participant "Model" as Model
+
+
+User -> UI : "p-view n/John Doe"
+UI -> Logic : execute(command)
+Logic -> Model : getFilteredPatientList()
+Model --> Logic : patientList
+Logic -> Logic : validatePatientExists("John Doe")
+Logic -> Model : getFilteredPrescriptionList()
+Model --> Logic : allPrescriptions
+Logic -> Logic : filterPrescriptionsForPatient("John Doe")
+Logic --> UI : CommandResult with filtered prescriptions
+UI --> User : Display John Doe's prescriptions
+@enduml

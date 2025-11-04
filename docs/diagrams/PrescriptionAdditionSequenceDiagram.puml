@@ -1,0 +1,31 @@
+@startuml
+hide footbox
+actor User
+participant ":UI" as ui
+participant ":Logic" as logic
+participant ":Model" as model
+participant ":Storage" as storage
+
+User -> ui : "p-add n/John m/Paracetamol d/500 f/3 dur/7"
+
+ui -> logic : execute("p-add n/John m/Paracetamol d/500 f/3 dur/7")
+
+logic -> model : getFilteredPatientList()
+model --> logic : patientList
+
+logic -> logic : validatePatientExists("John")
+
+logic -> model : hasPrescription(newPrescription)
+model --> logic : false
+
+logic -> model : addPrescription(newPrescription)
+model --> logic
+
+logic -> storage : saveAddressBook(addressBook)
+storage -> storage : Save to file
+storage --> logic
+
+logic --> ui : CommandResult(success)
+
+ui --> User : Show success message
+@enduml

@@ -30,28 +30,28 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 <img src="images/ArchitectureDiagram.png" width="280" />
 
-The ***Architecture Diagram*** given above explains the high-level design of the App.
+The ***Architecture Diagram*** given above explains the high-level design of the HospitalAdminProMax application.
 
 Given below is a quick overview of main components and how they interact with each other.
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S1-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2526S1-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
 The bulk of the app's work is done by the following four components:
 
-* [**`UI`**](#ui-component): The UI of the App.
-* [**`Logic`**](#logic-component): The command executor.
-* [**`Model`**](#model-component): Holds the data of the App in memory.
-* [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
+* [**`UI`**](#ui-component): The UI of the App, handling patient, appointment, and prescription views.
+* [**`Logic`**](#logic-component): The command executor for patient info, appointments, and prescriptions.
+* [**`Model`**](#model-component): Holds the data of the App including patients, appointments, and prescriptions.
+* [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk in JSON format.
 
 [**`Commons`**](#common-classes) represents a collection of classes used by multiple other components.
 
 **How the architecture components interact with each other**
 
-The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `i-delete n/John Doe`.
 
 <img src="images/ArchitectureSequenceDiagram.png" width="574" />
 
@@ -63,8 +63,6 @@ Each of the four main components (also shown in the diagram above),
 For example, the `Logic` component defines its API in the `Logic.java` interface and implements its functionality using the `LogicManager.java` class which follows the `Logic` interface. Other components interact with a given component through its interface rather than the concrete class (reason: to prevent outside component's being coupled to the implementation of a component), as illustrated in the (partial) class diagram below.
 
 <img src="images/ComponentManagers.png" width="300" />
-
-The sections below give more details of each component.
 
 ### UI component
 
@@ -118,29 +116,29 @@ How the parsing works:
 * On execution, the `AddAppointmentCommand` objects validates the appointment before appending the `Appointment` to the model.
 
 ### Model component
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2526S1-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
-<img src="images/ModelClassDiagram.png" width="450" />
-
+<img src="images/ModelClassDiagram.png" width="839" />
 
 The `Model` component,
 
-* stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
-* does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
+* stores the hospital management system data including:
+    * All `Patient` objects (contained in a `UniquePatientList` object)
+    * All `Appointment` objects (contained in a `UniqueAppointmentList` object)
+    * All `Prescription` objects (contained in a `UniquePrescriptionList` object)
+* stores the currently 'selected' objects as separate _filtered_ lists which are exposed to outsiders as unmodifiable `ObservableList<T>` that can be 'observed'
+* stores a `UserPref` object that represents the user's preferences
+* does not depend on any of the other three components
 
-* In addition to storing patients, the model now maintains a list of `Appointment` objects in a `UniqueAppointmentList`.
-* This list is exposed through a filtered and sorted ObservableList<Appointment>, allowing the UI to automatically update when appointment data changes.
-
-<img src="images/BetterModelClassDiagram.png" width="450" />
-
-</div>
+**Key Design Decisions:**
+* **Separation of Entities**: Patients, Appointments, and Prescriptions are separate entities to maintain clear domain boundaries
+* **Relationships**: Appointments and Prescriptions reference Patients by name rather than direct object references for simplicity and data integrity
+* **Filtered Lists**: Each entity type maintains its own filtered list for UI display purposes
 
 
 ### Storage component
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2526S1-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/address/storage/Storage.java)
 
 <img src="images/StorageClassDiagram.png" width="550" />
 
@@ -149,15 +147,182 @@ The `Storage` component,
 * inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
-### Common classes
-
-Classes used by multiple components are in the `seedu.address.commons` package.
-
+**Key Features:**
+- **Multi-Entity Storage**: Handles serialization of `Patient`, `Appointment`, and `Prescription` objects
+- **JSON Adaptation**: Uses `JsonAdaptedPatient`, `JsonAdaptedAppointment`, and `JsonAdaptedPrescription` for JSON serialization
+- **Data Integrity**: Maintains relationships between entities during serialization/deserialization
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Implementation**
 
 This section describes some noteworthy details on how certain features are implemented.
+
+## Patient Information Management Feature
+
+### Implementation
+The patient information management mechanism is facilitated by `Patient` and `UniquePatientList`. It stores comprehensive patient details including personal information, emergency contacts, and medical identification.
+
+**Patient Entity Structure:**
+```java
+public class Patient {
+    private final Name name;
+    private final Phone phone;
+    private final Email email;
+    private final Birthday birthday;
+    private final String gender;
+    private final String emergency;  // Emergency contact
+    private final String id;         // Patient ID
+    private final String lang;       // Language preference
+    private final Address address;
+}
+```
+
+**Key Operations in UniquePatientList:**
+* `contains(Patient)` - Checks if a patient exists using `isSamePatient()`
+* `add(Patient)` - Adds a patient with duplicate name checking
+* `remove(Patient)` - Removes a patient using exact equality matching
+* `setPatient(Patient, Patient)` - Updates a patient with uniqueness validation
+
+### Design Considerations:
+**Aspect: How to handle patient identity:**
+* **Alternative 1 (current choice):** Use name as primary identifier
+    * Pros: Simple for users to remember and reference
+    * Cons: Cannot handle patients with identical names
+* **Alternative 2:** Use patient ID as primary identifier
+    * Pros: Guaranteed uniqueness, follows hospital standards
+    * Cons: Less user-friendly, requires users to remember IDs
+
+## Appointment Management Feature
+
+### Implementation
+The appointment management system allows scheduling patient appointments with doctors with built-in conflict detection to prevent double-booking.
+
+**Appointment Entity Structure:**
+```java
+public class Appointment {
+    private final String patientName;    // References patient by name
+    private final LocalDateTime dateTime;
+    private final String doctor;
+    private final String reason;         // Visit purpose/notes
+}
+```
+
+**Key Operations in UniqueAppointmentList:**
+* `contains(Appointment)` - Checks for exact appointment duplicates
+* `add(Appointment)` - Prevents duplicate appointments
+* `remove(Appointment)` - Removes specific appointment matches
+
+**Conflict Detection Implementation:**
+Time slot conflict detection is implemented in `AddAppointmentCommand`:
+```java
+boolean hasClashingAppointment = model.getAddressBook()
+        .getAppointmentList()
+        .stream()
+        .anyMatch(existingAppointment ->
+                existingAppointment.getPatientName().equals(toAdd.getPatientName())
+                        && existingAppointment.getDateTime().equals(toAdd.getDateTime()));
+
+if (hasClashingAppointment) {
+    throw new CommandException(MESSAGE_TIMESLOT_CLASH);
+}
+```
+
+Here's how to incorporate the prescription workflow diagrams into your Implementation section:
+
+## Prescription Management Feature
+
+### Implementation
+The prescription system manages patient medications with comprehensive dosage, frequency, and duration information.
+
+**Prescription Entity Structure:**
+```java
+public class Prescription {
+    private final String patientId;      // References patient by ID
+    private final String medicationName;
+    private final Float dosage;          // In milligrams
+    private final Integer frequency;     // Times per day
+    private final LocalDateTime startDate;
+    private final Integer duration;      // In days
+    private final String note;           // Additional instructions
+}
+```
+
+**Class Structure:**
+The following class diagram shows the relationship between prescription-related classes:
+
+
+**Key Operations in UniquePrescriptionList:**
+* `contains(Prescription)` - Checks for duplicate prescriptions
+* `add(Prescription)` - Prevents duplicate prescriptions
+* `setPrescription(Prescription, Prescription)` - Updates prescriptions with uniqueness validation
+* `remove(Prescription)` - Removes specific prescriptions
+
+### Prescription Addition Workflow
+Adding a prescription involves command parsing, validation, and persistence as shown in the following sequence:
+
+<img src="images/PrescriptionAdditionSequenceDiagram.png" width="800" />
+
+The process follows these steps:
+1. **Command Parsing**: User input is parsed by `AddPrescriptionCommandParser` which extracts and validates all parameters
+2. **Patient Validation**: System verifies the patient exists before creating prescription
+3. **Duplicate Check**: `UniquePrescriptionList` ensures no identical prescription already exists
+4. **Persistence**: New prescription is added to model and saved to storage
+
+**Command Parsing Details:**
+The parsing sequence ensures all required parameters are present and properly formatted:
+
+<img src="images/PrescriptionCommandParsingSequenceDiagram.png" width="500" />
+
+### Prescription Viewing Workflow
+Viewing prescriptions follows a decision-based workflow:
+
+<img src="images/PrescriptionViewingSequenceDiagram.png" width="400" />
+
+Key validation points include:
+- Command format validation
+- Patient existence check
+- Prescription availability check
+
+### Prescription Deletion Workflow
+Deleting prescriptions involves index-based selection and UI updates:
+
+<img src="images/PrescriptionDeletionSequenceDiagram.png" width="600" />
+
+The deletion process:
+1. **Index Validation**: Ensures the provided index is valid within the current filtered list
+2. **Target Identification**: Retrieves the specific prescription to delete
+3. **Removal Execution**: Removes prescription from the model
+4. **UI Update**: Refreshes the displayed prescription list
+5. **Data Persistence**: Saves changes to storage
+
+### Design Considerations:
+**Aspect: Prescription Reference Method**
+* **Current Choice**: Reference patients by ID in prescriptions
+    * Pros: Consistent patient identification, follows database conventions
+    * Cons: Inconsistent with appointments which use patient names
+* **Alternative**: Reference patients by name in all entities
+    * Pros: Uniform reference method across the system
+    * Cons: Potential issues with duplicate patient names
+
+**Aspect: Prescription Uniqueness**
+* **Current Choice**: Exact match on all fields prevents duplicates
+    * Pros: Prevents identical prescriptions for same patient
+    * Cons: May be too restrictive for legitimate duplicate medications
+* **Alternative**: Allow duplicates with different start dates
+    * Pros: Supports medication refills and course repetitions
+    * Cons: Requires more sophisticated duplicate detection
+
+The prescription system provides robust medication management with comprehensive validation and clear user workflows, though some reference consistency issues exist between different entity types.
+
+## Data Integrity Considerations
+
+**Reference Consistency:**
+- Appointments reference patients by name
+- Prescriptions reference patients by ID
+- This inconsistency may complicate data relationships
+
+**Cascading Operations:**
+- Patient deletion does not automatically remove related appointments and prescriptions
 
 ### \[Proposed\] Undo/redo feature
 
@@ -285,11 +450,47 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                                       | add a patient's prescription    | provide treatment plan for the patient                     |
 | `* * *`  | user                                       | delete a patient's appointment  | remove entries that I no longer need                       |
 
-*{More to be added}*
 
 ### Use cases
 
 (For all use cases below, the **System** is the `HospitalContactsXPM` and the **Actor** is the `user`, unless specified otherwise)
+
+
+**Use case: Add a patient's information**
+
+**MSS**
+
+1. User requests to add a new patient with required information
+2. System validates the patient data
+3. System adds the patient to the database
+4. System displays success message
+
+Use case ends.
+
+**Extensions**
+* 2a. Patient data is invalid or missing required fields
+    * 2a1. System shows error message with required fields
+    * Use case resumes at step 1
+
+
+**Use case: Schedule an appointment**
+
+**MSS**
+
+1. User requests to schedule an appointment for a patient
+2. System validates patient exists and time slot is available
+3. System creates the appointment
+4. System displays success message
+
+Use case ends.
+
+**Extensions**
+* 2a. Patient does not exist
+    * 2a1. System shows "Patient not found" error
+    * Use case ends
+* 2b. Time slot is already booked
+    * 2b1. System shows "Time slot clash" error
+    * Use case resumes at step 1
 
 **Use case: Delete a patient's appointment**
 
@@ -348,7 +549,39 @@ Use case resumes from step 2.
 
 Use case ends.
 
-*{More to be added}*
+**Use case: View a patient's prescriptions**
+
+**MSS**
+
+1. User requests to view prescriptions for a specific patient
+2. System validates patient exists
+3. System retrieves all prescriptions for the patient
+4. System displays the prescriptions
+
+Use case ends.
+
+**Extensions**
+* 2a. Patient does not exist
+    * 2a1. System shows "Patient not found" error
+    * Use case ends
+
+**Use case: Delete a prescription**
+
+**MSS**
+
+1. User requests to list prescriptions
+2. System shows list of prescriptions
+3. User requests to delete a specific prescription
+4. System deletes the prescription
+
+Use case ends.
+
+**Extensions**
+* 2a. The list is empty
+    * Use case ends
+* 3a. The given index is invalid
+    * 3a1. System shows error message
+    * Use case resumes at step 2
 
 ### Non-Functional Requirements
 
@@ -357,7 +590,6 @@ Use case ends.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 4. Should be able to list 100 patients at a time on the UI without visible lag.
 
-*{More to be added}*
 
 ### Glossary
 
@@ -379,44 +611,78 @@ testers are expected to do more *exploratory* testing.
 ### Launch and shutdown
 
 1. Initial launch
-
-   1. Download the jar file and copy into an empty folder
-
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+    1. Download the jar file and copy into an empty folder
+    1. Double-click the jar file<br>
+       Expected: Shows the GUI with a set of sample patients, appointments, and prescriptions.
 
 1. Saving window preferences
-
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
-
-   1. Re-launch the app by double-clicking the jar file.<br>
+    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+### Patient Information Management
 
-### Deleting a patient
+1. Adding a patient
+    1. Prerequisites: None
+    1. Test case: `i-add n/John Lee dob/1985-08-20 g/Male p/91234567 e/johnlee@example.com a/456 Orchard Road em/Mary Lee - 87654321 id/S9876543B lang/English`<br>
+       Expected: New patient "John Lee" is added to the list. Success message shown.
+    1. Test case: `i-add n/John Lee dob/1990-01-01 g/Male p/91111111 e/test@test.com a/Test Street em/Test - 92222222 id/S1111111A lang/Chinese`<br>
+       Expected: No patient added. Error message about duplicate name.
 
-1. Deleting a patient while all patients are being shown
+1. Viewing patient information
+    1. Prerequisites: Patient "John Lee" exists in the system (from previous test)
+    1. Test case: `i-view n/John Lee`<br>
+       Expected: John Lee's patient details are displayed in the result box.
 
-   1. Prerequisites: List all patients using the `list` command. Multiple patients in the list.
+1. Deleting a patient
+    1. Prerequisites: Patient "John Lee" exists in the system
+    1. Test case: `i-delete n/John Lee`<br>
+       Expected: Patient "John Lee" is deleted from the list. Success message shown.
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+### Prescription Management
 
-   1. Test case: `delete 0`<br>
-      Expected: No patient is deleted. Error details shown in the status message. Status bar remains the same.
+1. Adding a prescription
+    1. Prerequisites: Patient "John Lee" exists in the system
+    1. Test case: `p-add n/John Lee m/Paracetamol d/500 f/2 dur/7`<br>
+       Expected: Prescription for John Lee added. Success message shown.
+    1. Test case: `p-add n/John Lee m/Amoxicillin d/250 f/3 dur/10`<br>
+       Expected: Second prescription for John Lee added. Success message shown.
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+1. Viewing prescriptions
+    1. Prerequisites: Patient "John Lee" has existing prescriptions
+    1. Test case: `p-view n/John Lee`<br>
+       Expected: All prescriptions for John Lee are displayed.
 
-1. _{ more test cases …​ }_
+1. Deleting prescriptions
+    1. Prerequisites: Patient "John Lee" has at least one prescription
+    1. Test case: `p-delete 1` (after viewing John Lee's prescriptions)<br>
+       Expected: First prescription for John Lee is deleted. Success message shown.
 
-### Saving data
+### Appointment Management
 
-1. Dealing with missing/corrupted data files
+1. Scheduling an appointment
+    1. Prerequisites: Patient "John Lee" exists in the system
+    1. Test case: `a-add n/John Lee d/Dr Wee t/2025-11-11 14:00 note/Follow-up`<br>
+       Expected: Appointment for John Lee added. Success message shown.
+    1. Test case: `a-add n/John Lee d/Dr Tan t/2025-12-01 09:30 note/Annual check-up`<br>
+       Expected: Second appointment for John Lee added. Success message shown.
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+1. Viewing appointments
+    1. Prerequisites: Patient "John Lee" has existing appointments
+    1. Test case: `a-view n/John Lee`<br>
+       Expected: All appointments for John Lee are displayed.
 
-1. _{ more test cases …​ }_
+1. Deleting appointments
+    1. Prerequisites: Patient "John Lee" has an appointment at a specific time
+    1. Test case: `a-delete n/John Lee t/2025-11-11 14`<br>
+       Expected: John Lee's appointment at 2025-11-11 14:00 is deleted. Success message shown.
 
+### Data Persistence
 
-*{More to be added}*
+1. Data integrity across sessions
+    1. Add patient "John Lee" with `i-add n/John Lee dob/1985-08-20 g/Male p/91234567 e/johnlee@example.com a/456 Orchard Road em/Mary Lee - 87654321 id/S9876543B lang/English`
+    1. Add prescription for John Lee with `p-add n/John Lee m/Paracetamol d/500 f/2 dur/7`
+    1. Add appointment for John Lee with `a-add n/John Lee d/Dr Wee t/2025-11-11 14:00 note/Follow-up`
+    1. Close the application and restart it<br>
+       Expected: All John Lee's data (patient info, prescription, appointment) persists and is displayed correctly
+

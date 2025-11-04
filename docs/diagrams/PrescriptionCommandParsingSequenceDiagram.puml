@@ -1,0 +1,16 @@
+@startuml
+hide footbox
+title Prescription Command Parsing
+
+participant "AddressBookParser" as Parser
+participant "AddPrescriptionCommandParser" as PrescriptionParser
+participant "ArgumentMultimap" as ArgMap
+
+Parser -> PrescriptionParser : parse(args)
+PrescriptionParser -> ArgMap : tokenize(args)
+ArgMap --> PrescriptionParser : multimap
+PrescriptionParser -> PrescriptionParser : validateParameters()
+PrescriptionParser -> PrescriptionParser : createPrescription()
+PrescriptionParser -> PrescriptionParser : createCommand()
+PrescriptionParser --> Parser : AddPrescriptionCommand
+@enduml
