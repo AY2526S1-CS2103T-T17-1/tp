@@ -8,14 +8,9 @@ AddressBook *-right-> "1" UniquePersonList
 AddressBook *-right-> "1" UniqueTagList
 AddressBook *-right-> "1" UniquePrescriptionList
 
-UniqueTagList -[hidden]down- UniquePersonList
-UniqueTagList -[hidden]down- UniquePersonList
-
-UniqueTagList -right-> "*" Tag
 UniquePersonList -right-> Person
 UniquePrescriptionList -right-> Prescription
 
-Person -up-> "*" Tag
 
 Person *--> Name
 Person *--> Phone

@@ -1,0 +1,28 @@
+@startuml
+hide footbox
+actor User
+participant ":UI" as ui
+participant ":Logic" as logic
+participant ":Model" as model
+participant ":Storage" as storage
+
+User -> ui : "p-delete 1"
+
+ui -> logic : execute("p-delete 1")
+
+logic -> model : getFilteredPrescriptionList()
+model --> logic : prescriptionList
+
+logic -> logic : validateIndex(1)
+
+logic -> model : deletePrescription(target)
+model --> logic
+
+logic -> storage : saveAddressBook(addressBook)
+storage -> storage : Save to file
+storage --> logic
+
+logic --> ui : CommandResult(success)
+
+ui --> User : Show success message
+@enduml
