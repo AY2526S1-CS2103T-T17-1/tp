@@ -623,7 +623,8 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
     1. Download the jar file and copy into an empty folder
-    1. Double-click the jar file<br>
+    2. Open a command window. Run the java -version command to ensure you are using Java 17.
+    3. Launch the jar file using the java -jar command rather than double-clicking (reason: to ensure the jar file is using the same java version that you verified above). Use double-clicking as a last resort.<br>
        Expected: Shows the GUI with a set of sample patients, appointments, and prescriptions.
 
 1. Saving window preferences
