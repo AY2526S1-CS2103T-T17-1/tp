@@ -353,11 +353,27 @@ _Details coming soon ..._
 
 ### Patient information commands
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+| Action | Format, Examples                                                                                                                                                                                                                                                         |
+|---|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Add Patient Information** | `i-add n/PATIENT_NAME dob/BIRTHDAY g/GENDER p/PHONE [e/EMAIL a/ADDRESS] em/EMERGENCY id/ID_NUMBER lang/LANGUAGE` <br> e.g., `i-add n/John Tan dob/1990-05-15 g/M p/98765432 e/johntan@example.com a/123 Main Street em/Jane Tan - 91234567 id/S1234567A lang/English` |
+| **View Patient Information** | `i-view KEYWORD [MORE_KEYWORDS]` <br> e.g., `i-view n/Alex Yeoh`                                                                                                                                                                                                         |
+| **Delete Patient Information** | `i-delete n/PATIENT_NAME` <br> e.g., `i-delete n/Alex Yeoh`                                                                                                                                                                                                              |
+=======
+| Action                         | Format, Examples                                                                                                                                                                                                                                                                 |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Add Patient Information**    | `i-add n/PATIENT_NAME dob/BIRTHDAY g/GENDER p/PHONE [e/EMAIL a/ADDRESS] em/EMERGENCY_CONTACT id/ID_NUMBER lang/LANGUAGE` <br> e.g., `i-add n/John Tan dob/1990-05-15 g/Male p/98765432 e/johntan@example.com a/123 Main Street em/Jane Tan - 91234567 id/S1234567A lang/English` |
+| **View Patient Information**   | `i-view KEYWORD [MORE_KEYWORDS]` <br> e.g., `i-view n/Alex Yeoh`                                                                                                                                                                                                                 |
+| **Delete Patient Information** | `i-delete n/PATIENT_NAME` <br> e.g., `i-delete n/Alex Yeoh`                                                                                                                                                                                                                      |
+>>>>>>> fc16792429b7d38e5b816b4d95707ee41e6c1520
+=======
 | Action | Format, Examples                                                                                                                                                                                                                                                         |
 |---|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Add Patient Information** | `i-add n/PATIENT_NAME dob/BIRTHDAY g/GENDER p/PHONE [e/EMAIL a/ADDRESS] em/EMERGENCY id/ID_NUMBER lang/LANGUAGE` <br> e.g., `i-add n/John Tan dob/1990-05-15 g/Male p/98765432 e/johntan@example.com a/123 Main Street em/Jane Tan - 91234567 id/S1234567A lang/English` |
 | **View Patient Information** | `i-view KEYWORD [MORE_KEYWORDS]` <br> e.g., `i-view n/Alex Yeoh`                                                                                                                                                                                                         |
 | **Delete Patient Information** | `i-delete n/PATIENT_NAME` <br> e.g., `i-delete n/Alex Yeoh`                                                                                                                                                                                                              |
+>>>>>>> 94529b26e93e35b73ddd8e929a0a78dd7d894af6
 
 ---
 
