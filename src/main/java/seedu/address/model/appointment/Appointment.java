@@ -68,7 +68,8 @@ public class Appointment {
         final Appointment otherAppointment = (Appointment) other;
         return normalizeName(patientName).equals(normalizeName(otherAppointment.patientName))
             && doctor.equalsIgnoreCase(otherAppointment.doctor)
-            && dateTime.equals(otherAppointment.dateTime);
+            && dateTime.equals(otherAppointment.dateTime)
+            && reason.equals(otherAppointment.reason);
     }
 
     private static String normalizeName(String name) {

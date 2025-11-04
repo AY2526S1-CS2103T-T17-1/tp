@@ -56,7 +56,8 @@ public class ViewAppointmentsCommandParser implements Parser<ViewAppointmentsCom
                     .withResolverStyle(java.time.format.ResolverStyle.STRICT);
             return Optional.of(LocalDate.parse(raw.get(), strictFormatter));
         } catch (DateTimeParseException e) {
-            throw new ParseException("Invalid date. Please use format YYYY-MM-DD and ensure it is a real calendar date.");
+            throw new ParseException(
+                "Invalid date. Please use format YYYY-MM-DD and ensure it is a real calendar date.");
         }
     }
 }
