@@ -16,7 +16,13 @@ public class HavingPatientIdPredicate implements Predicate<Prescription> {
 
     @Override
     public boolean test(Prescription prescription) {
-        return patientId.equals(prescription.getPatientId());
+        if (prescription == null) {
+            return false;
+        }
+
+        String prescriptionPatientId = prescription.getPatientId();
+
+        return prescriptionPatientId.toLowerCase().contains(patientId.toLowerCase());
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.ViewPrescriptionsCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.NameMatchesPredicate;
 import seedu.address.model.prescription.HavingPatientIdPredicate;
 import seedu.address.model.prescription.exceptions.PrescriptionNotFoundException;
 
@@ -36,7 +37,8 @@ public class ViewPrescriptionsCommandParser implements Parser<ViewPrescriptionsC
                 ViewPrescriptionsCommand.MESSAGE_USAGE));
         }
 
-        return new ViewPrescriptionsCommand(new HavingPatientIdPredicate(patientId));
+        return new ViewPrescriptionsCommand(new HavingPatientIdPredicate(patientId),
+            new NameMatchesPredicate(patientId));
     }
 
     /**

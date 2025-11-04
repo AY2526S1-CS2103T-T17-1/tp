@@ -62,13 +62,11 @@ public class CommandTestUtil {
     public static final EditCommand.EditPatientDescriptor DESC_BOB;
 
     // Prescriptions
-    public static final String VALID_PATIENT_ID_P10293 = "P-10293";
-    public static final String VALID_PATIENT_ID_P20485 = "P-20485";
-    public static final String INVALID_PATIENT_ID = "10293";
+    public static final String VALID_PATIENT_ID_ALEX_YEOH = "Alex Yeoh";
+    public static final String VALID_PATIENT_ID_BERNICE_YU = "Bernice Yu";
 
-    public static final String PATIENT_DESC_P10293 = " " + PREFIX_PATIENT + " " + VALID_PATIENT_ID_P10293;
-    public static final String PATIENT_DESC_P20485 = " " + PREFIX_PATIENT + " " + VALID_PATIENT_ID_P20485;
-    public static final String INVALID_PATIENT_DESC = " " + PREFIX_PATIENT + " " + INVALID_PATIENT_ID;
+    public static final String PATIENT_DESC_ALEX_YEOH = " " + PREFIX_PATIENT + " " + VALID_PATIENT_ID_ALEX_YEOH;
+    public static final String PATIENT_DESC_BERNICE_YU = " " + PREFIX_PATIENT + " " + VALID_PATIENT_ID_BERNICE_YU;
 
     static {
         DESC_AMY = new EditPatientDescriptorBuilder().withName(VALID_NAME_AMY)

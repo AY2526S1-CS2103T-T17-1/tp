@@ -28,6 +28,7 @@ public class AddAppointmentCommand extends Command {
     public static final String MESSAGE_SUCCESS = "New appointment added: %1$s";
     public static final String MESSAGE_PATIENT_NOT_FOUND = "Patient '%1$s' does not exist in the address book.";
     public static final String MESSAGE_DUPLICATE_APPOINTMENT = "This appointment already exists.";
+    public static final String MESSAGE_TIMESLOT_CLASH = "Time slot clash detected for the patient.";
 
     private final Appointment toAdd;
     private final String patientName;
@@ -61,6 +62,17 @@ public class AddAppointmentCommand extends Command {
 
         if (model.hasAppointment(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_APPOINTMENT);
+        }
+
+        boolean hasClashingAppointment = model.getAddressBook()
+                .getAppointmentList()
+                .stream()
+                .anyMatch(existingAppointment ->
+                        existingAppointment.getPatientName().equals(toAdd.getPatientName())
+                                && existingAppointment.getDateTime().equals(toAdd.getDateTime()));
+
+        if (hasClashingAppointment) {
+            throw new CommandException(MESSAGE_TIMESLOT_CLASH);
         }
 
         model.addAppointment(toAdd);

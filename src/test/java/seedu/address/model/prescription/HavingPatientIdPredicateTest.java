@@ -14,20 +14,20 @@ public class HavingPatientIdPredicateTest {
         HavingPatientIdPredicate firstPredicate = new HavingPatientIdPredicate(firstPatientId);
         HavingPatientIdPredicate secondPredicate = new HavingPatientIdPredicate(secondPatientId);
 
-        // same object -> returns true
         assertTrue(firstPredicate.equals(firstPredicate));
 
-        // same values -> return true
         HavingPatientIdPredicate firstPredicateCopy = new HavingPatientIdPredicate(firstPatientId);
         assertTrue(firstPredicate.equals(firstPredicateCopy));
         assertTrue(firstPredicate.equals(secondPredicate));
 
-        // different types -> returns false
         assertFalse(firstPredicate.equals(1));
 
-        // null -> returns false
         assertFalse(firstPredicate.equals(null));
+    }
 
-
+    @Test
+    public void test_nullPrescription_returnsFalse() {
+        HavingPatientIdPredicate predicate = new HavingPatientIdPredicate("test");
+        assertFalse(predicate.test(null));
     }
 }
