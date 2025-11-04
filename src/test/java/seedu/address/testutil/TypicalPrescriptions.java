@@ -11,7 +11,7 @@ import seedu.address.model.prescription.Prescription;
 public class TypicalPrescriptions {
 
     public static final Prescription PRESCRIPTION_A = new PrescriptionBuilder()
-            .withPatientId("P-10293")
+            .withPatientId("Benson Meier")
             .withMedicationName("Paracetamol")
             .withDosage(500f)
             .withFrequency(3)
@@ -21,7 +21,7 @@ public class TypicalPrescriptions {
             .build();
 
     public static final Prescription PRESCRIPTION_B = new PrescriptionBuilder()
-            .withPatientId("P-10293")
+            .withPatientId("Benson Meier")
             .withMedicationName("Amoxicillin")
             .withDosage(250f)
             .withFrequency(2)
@@ -31,7 +31,7 @@ public class TypicalPrescriptions {
             .build();
 
     public static final Prescription PRESCRIPTION_C = new PrescriptionBuilder()
-            .withPatientId("P-10293")
+            .withPatientId("Benson Meier")
             .withMedicationName("Loratadine")
             .withDosage(10f)
             .withFrequency(1)
@@ -41,7 +41,7 @@ public class TypicalPrescriptions {
             .build();
 
     public static final Prescription PRESCRIPTION_D = new PrescriptionBuilder()
-            .withPatientId("P-20485")
+            .withPatientId("Benson Meier")
             .withMedicationName("Ibuprofen")
             .withDosage(200f)
             .withFrequency(2)

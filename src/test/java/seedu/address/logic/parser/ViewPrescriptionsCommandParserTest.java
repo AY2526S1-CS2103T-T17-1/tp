@@ -1,8 +1,8 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.PATIENT_DESC_P10293;
-import static seedu.address.logic.commands.CommandTestUtil.PATIENT_DESC_P20485;
+import static seedu.address.logic.commands.CommandTestUtil.PATIENT_DESC_ALEX_YEOH;
+import static seedu.address.logic.commands.CommandTestUtil.PATIENT_DESC_BERNICE_YU;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
@@ -11,6 +11,7 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.ViewPrescriptionsCommand;
+import seedu.address.model.person.NameMatchesPredicate;
 import seedu.address.model.prescription.HavingPatientIdPredicate;
 
 public class ViewPrescriptionsCommandParserTest {
@@ -20,12 +21,14 @@ public class ViewPrescriptionsCommandParserTest {
     @Test
     public void parse_validPatientId_success() {
         // whitespace only preamble
-        assertParseSuccess(parser, PREAMBLE_WHITESPACE + PATIENT_DESC_P10293,
-                new ViewPrescriptionsCommand(new HavingPatientIdPredicate("P-10293")));
+        assertParseSuccess(parser, PREAMBLE_WHITESPACE + PATIENT_DESC_ALEX_YEOH,
+                new ViewPrescriptionsCommand(new HavingPatientIdPredicate("Alex Yeoh"),
+                    new NameMatchesPredicate("Alex Yeoh")));
 
         // another valid patient id
-        assertParseSuccess(parser, PREAMBLE_WHITESPACE + PATIENT_DESC_P20485,
-                new ViewPrescriptionsCommand(new HavingPatientIdPredicate("P-20485")));
+        assertParseSuccess(parser, PREAMBLE_WHITESPACE + PATIENT_DESC_BERNICE_YU,
+                new ViewPrescriptionsCommand(new HavingPatientIdPredicate("Bernice Yu"),
+                    new NameMatchesPredicate("Bernice Yu")));
     }
 
     @Test
@@ -37,7 +40,7 @@ public class ViewPrescriptionsCommandParserTest {
         assertParseFailure(parser, "P-10293", expectedMessage);
 
         // preamble non-empty
-        assertParseFailure(parser, PREAMBLE_NON_EMPTY + PATIENT_DESC_P10293, expectedMessage);
+        assertParseFailure(parser, PREAMBLE_NON_EMPTY + PATIENT_DESC_ALEX_YEOH, expectedMessage);
 
         // empty string
         assertParseFailure(parser, "", expectedMessage);
@@ -45,10 +48,10 @@ public class ViewPrescriptionsCommandParserTest {
 
     @Test
     public void parse_repeatedPatientPrefix_failure() {
-        String validPatient = PATIENT_DESC_P10293;
+        String validPatient = PATIENT_DESC_ALEX_YEOH;
 
         // repeated patient prefix
-        assertParseFailure(parser, PATIENT_DESC_P10293 + PATIENT_DESC_P10293,
+        assertParseFailure(parser, PATIENT_DESC_ALEX_YEOH + PATIENT_DESC_ALEX_YEOH,
                 "Multiple values specified for the following single-valued field(s): n/");
     }
 
