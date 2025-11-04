@@ -138,7 +138,7 @@ The `Model` component,
 
 ### Storage component
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2526S1-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/address/storage/Storage.java)
 
 <img src="images/StorageClassDiagram.png" width="550" />
 
@@ -147,10 +147,10 @@ The `Storage` component,
 * inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
-### Common classes
-
-Classes used by multiple components are in the `seedu.address.commons` package.
-
+**Key Features:**
+- **Multi-Entity Storage**: Handles serialization of `Patient`, `Appointment`, and `Prescription` objects
+- **JSON Adaptation**: Uses `JsonAdaptedPatient`, `JsonAdaptedAppointment`, and `JsonAdaptedPrescription` for JSON serialization
+- **Data Integrity**: Maintains relationships between entities during serialization/deserialization
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Implementation**
@@ -450,11 +450,47 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                                       | add a patient's prescription    | provide treatment plan for the patient                     |
 | `* * *`  | user                                       | delete a patient's appointment  | remove entries that I no longer need                       |
 
-*{More to be added}*
 
 ### Use cases
 
 (For all use cases below, the **System** is the `HospitalContactsXPM` and the **Actor** is the `user`, unless specified otherwise)
+
+
+**Use case: Add a patient's information**
+
+**MSS**
+
+1. User requests to add a new patient with required information
+2. System validates the patient data
+3. System adds the patient to the database
+4. System displays success message
+
+Use case ends.
+
+**Extensions**
+* 2a. Patient data is invalid or missing required fields
+    * 2a1. System shows error message with required fields
+    * Use case resumes at step 1
+
+
+**Use case: Schedule an appointment**
+
+**MSS**
+
+1. User requests to schedule an appointment for a patient
+2. System validates patient exists and time slot is available
+3. System creates the appointment
+4. System displays success message
+
+Use case ends.
+
+**Extensions**
+* 2a. Patient does not exist
+    * 2a1. System shows "Patient not found" error
+    * Use case ends
+* 2b. Time slot is already booked
+    * 2b1. System shows "Time slot clash" error
+    * Use case resumes at step 1
 
 **Use case: Delete a patient's appointment**
 
@@ -510,7 +546,39 @@ Use case ends.
   * 3c1. HospitalContactsXPM notifies the user that the prescription already exists.
   Use case ends.
 
-*{More to be added}*
+**Use case: View a patient's prescriptions**
+
+**MSS**
+
+1. User requests to view prescriptions for a specific patient
+2. System validates patient exists
+3. System retrieves all prescriptions for the patient
+4. System displays the prescriptions
+
+Use case ends.
+
+**Extensions**
+* 2a. Patient does not exist
+    * 2a1. System shows "Patient not found" error
+    * Use case ends
+
+**Use case: Delete a prescription**
+
+**MSS**
+
+1. User requests to list prescriptions
+2. System shows list of prescriptions
+3. User requests to delete a specific prescription
+4. System deletes the prescription
+
+Use case ends.
+
+**Extensions**
+* 2a. The list is empty
+    * Use case ends
+* 3a. The given index is invalid
+    * 3a1. System shows error message
+    * Use case resumes at step 2
 
 ### Non-Functional Requirements
 
@@ -519,7 +587,6 @@ Use case ends.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 4. Should be able to list 100 patients at a time on the UI without visible lag.
 
-*{More to be added}*
 
 ### Glossary
 
@@ -541,44 +608,77 @@ testers are expected to do more *exploratory* testing.
 ### Launch and shutdown
 
 1. Initial launch
-
-   1. Download the jar file and copy into an empty folder
-
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+    1. Download the jar file and copy into an empty folder
+    1. Double-click the jar file<br>
+       Expected: Shows the GUI with a set of sample patients, appointments, and prescriptions.
 
 1. Saving window preferences
-
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
-
-   1. Re-launch the app by double-clicking the jar file.<br>
+    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+### Patient Information Management
 
-### Deleting a patient
+1. Adding a patient
+    1. Prerequisites: None
+    1. Test case: `i-add n/John Lee dob/1985-08-20 g/Male p/91234567 e/johnlee@example.com a/456 Orchard Road em/Mary Lee - 87654321 id/S9876543B lang/English`<br>
+       Expected: New patient "John Lee" is added to the list. Success message shown.
+    1. Test case: `i-add n/John Lee dob/1990-01-01 g/Male p/91111111 e/test@test.com a/Test Street em/Test - 92222222 id/S1111111A lang/Chinese`<br>
+       Expected: No patient added. Error message about duplicate name.
 
-1. Deleting a patient while all patients are being shown
+1. Viewing patient information
+    1. Prerequisites: Patient "John Lee" exists in the system (from previous test)
+    1. Test case: `i-view n/John Lee`<br>
+       Expected: John Lee's patient details are displayed in the result box.
 
-   1. Prerequisites: List all patients using the `list` command. Multiple patients in the list.
+1. Deleting a patient
+    1. Prerequisites: Patient "John Lee" exists in the system
+    1. Test case: `i-delete n/John Lee`<br>
+       Expected: Patient "John Lee" is deleted from the list. Success message shown.
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+### Prescription Management
 
-   1. Test case: `delete 0`<br>
-      Expected: No patient is deleted. Error details shown in the status message. Status bar remains the same.
+1. Adding a prescription
+    1. Prerequisites: Patient "John Lee" exists in the system
+    1. Test case: `p-add n/John Lee m/Paracetamol d/500 f/2 dur/7`<br>
+       Expected: Prescription for John Lee added. Success message shown.
+    1. Test case: `p-add n/John Lee m/Amoxicillin d/250 f/3 dur/10`<br>
+       Expected: Second prescription for John Lee added. Success message shown.
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+1. Viewing prescriptions
+    1. Prerequisites: Patient "John Lee" has existing prescriptions
+    1. Test case: `p-view n/John Lee`<br>
+       Expected: All prescriptions for John Lee are displayed.
 
-1. _{ more test cases …​ }_
+1. Deleting prescriptions
+    1. Prerequisites: Patient "John Lee" has at least one prescription
+    1. Test case: `p-delete 1` (after viewing John Lee's prescriptions)<br>
+       Expected: First prescription for John Lee is deleted. Success message shown.
 
-### Saving data
+### Appointment Management
 
-1. Dealing with missing/corrupted data files
+1. Scheduling an appointment
+    1. Prerequisites: Patient "John Lee" exists in the system
+    1. Test case: `a-add n/John Lee d/Dr Wee t/2025-11-11 14:00 note/Follow-up`<br>
+       Expected: Appointment for John Lee added. Success message shown.
+    1. Test case: `a-add n/John Lee d/Dr Tan t/2025-12-01 09:30 note/Annual check-up`<br>
+       Expected: Second appointment for John Lee added. Success message shown.
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+1. Viewing appointments
+    1. Prerequisites: Patient "John Lee" has existing appointments
+    1. Test case: `a-view n/John Lee`<br>
+       Expected: All appointments for John Lee are displayed.
 
-1. _{ more test cases …​ }_
+1. Deleting appointments
+    1. Prerequisites: Patient "John Lee" has an appointment at a specific time
+    1. Test case: `a-delete n/John Lee t/2025-11-11 14`<br>
+       Expected: John Lee's appointment at 2025-11-11 14:00 is deleted. Success message shown.
 
+### Data Persistence
 
-*{More to be added}*
+1. Data integrity across sessions
+    1. Add patient "John Lee" with `i-add n/John Lee dob/1985-08-20 g/Male p/91234567 e/johnlee@example.com a/456 Orchard Road em/Mary Lee - 87654321 id/S9876543B lang/English`
+    1. Add prescription for John Lee with `p-add n/John Lee m/Paracetamol d/500 f/2 dur/7`
+    1. Add appointment for John Lee with `a-add n/John Lee d/Dr Wee t/2025-11-11 14:00 note/Follow-up`
+    1. Close the application and restart it<br>
+       Expected: All John Lee's data (patient info, prescription, appointment) persists and is displayed correctly
