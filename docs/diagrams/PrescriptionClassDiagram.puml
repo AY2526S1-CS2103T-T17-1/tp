@@ -1,0 +1,33 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor MODEL_COLOR
+skinparam classBackgroundColor MODEL_COLOR
+
+Package Model <<Rectangle>> {
+Class AddressBook
+Class UniquePrescriptionList
+Class Prescription
+
+Class I #FFFFFF
+}
+
+AddressBook --> "      1" UniquePrescriptionList
+UniquePrescriptionList --> "~* all" Prescription
+
+Prescription : -patientId: String
+Prescription : -medicationName: String
+Prescription : -dosage: Float
+Prescription : -frequency: Integer
+Prescription : -duration: Integer
+Prescription : -note: String
+Prescription : +getPatientId(): String
+Prescription : +getMedicationName(): String
+Prescription : +getDosage(): Float
+
+note bottom of Prescription
+  Manages patient medications
+  with dosage and frequency
+end note
+
+@enduml

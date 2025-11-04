@@ -30,28 +30,28 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 <img src="images/ArchitectureDiagram.png" width="280" />
 
-The ***Architecture Diagram*** given above explains the high-level design of the App.
+The ***Architecture Diagram*** given above explains the high-level design of the HospitalAdminProMax application.
 
 Given below is a quick overview of main components and how they interact with each other.
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S1-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2526S1-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
 The bulk of the app's work is done by the following four components:
 
-* [**`UI`**](#ui-component): The UI of the App.
-* [**`Logic`**](#logic-component): The command executor.
-* [**`Model`**](#model-component): Holds the data of the App in memory.
-* [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
+* [**`UI`**](#ui-component): The UI of the App, handling patient, appointment, and prescription views.
+* [**`Logic`**](#logic-component): The command executor for patient info, appointments, and prescriptions.
+* [**`Model`**](#model-component): Holds the data of the App including patients, appointments, and prescriptions.
+* [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk in JSON format.
 
 [**`Commons`**](#common-classes) represents a collection of classes used by multiple other components.
 
 **How the architecture components interact with each other**
 
-The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `i-delete n/John Doe`.
 
 <img src="images/ArchitectureSequenceDiagram.png" width="574" />
 
@@ -63,8 +63,6 @@ Each of the four main components (also shown in the diagram above),
 For example, the `Logic` component defines its API in the `Logic.java` interface and implements its functionality using the `LogicManager.java` class which follows the `Logic` interface. Other components interact with a given component through its interface rather than the concrete class (reason: to prevent outside component's being coupled to the implementation of a component), as illustrated in the (partial) class diagram below.
 
 <img src="images/ComponentManagers.png" width="300" />
-
-The sections below give more details of each component.
 
 ### UI component
 
@@ -118,26 +116,24 @@ How the parsing works:
 * On execution, the `AddAppointmentCommand` objects validates the appointment before appending the `Appointment` to the model.
 
 ### Model component
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2526S1-CS2103T-T17-1/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
-<img src="images/ModelClassDiagram.png" width="450" />
-
+<img src="images/ModelClassDiagram.png" width="839" />
 
 The `Model` component,
 
-* stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
-* does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
+* stores the hospital management system data including:
+    * All `Patient` objects (contained in a `UniquePatientList` object)
+    * All `Appointment` objects (contained in a `UniqueAppointmentList` object)
+    * All `Prescription` objects (contained in a `UniquePrescriptionList` object)
+* stores the currently 'selected' objects as separate _filtered_ lists which are exposed to outsiders as unmodifiable `ObservableList<T>` that can be 'observed'
+* stores a `UserPref` object that represents the user's preferences
+* does not depend on any of the other three components
 
-* In addition to storing patients, the model now maintains a list of Appointment objects in a UniqueAppointmentList.
-* This list is exposed through a filtered and sorted ObservableList<Appointment>, allowing the UI to automatically update when appointment data changes.
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
-
-<img src="images/BetterModelClassDiagram.png" width="450" />
-
-</div>
+**Key Design Decisions:**
+* **Separation of Entities**: Patients, Appointments, and Prescriptions are separate entities to maintain clear domain boundaries
+* **Relationships**: Appointments and Prescriptions reference Patients by name rather than direct object references for simplicity and data integrity
+* **Filtered Lists**: Each entity type maintains its own filtered list for UI display purposes
 
 
 ### Storage component
@@ -160,6 +156,173 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 ## **Implementation**
 
 This section describes some noteworthy details on how certain features are implemented.
+
+## Patient Information Management Feature
+
+### Implementation
+The patient information management mechanism is facilitated by `Patient` and `UniquePatientList`. It stores comprehensive patient details including personal information, emergency contacts, and medical identification.
+
+**Patient Entity Structure:**
+```java
+public class Patient {
+    private final Name name;
+    private final Phone phone;
+    private final Email email;
+    private final Birthday birthday;
+    private final String gender;
+    private final String emergency;  // Emergency contact
+    private final String id;         // Patient ID
+    private final String lang;       // Language preference
+    private final Address address;
+}
+```
+
+**Key Operations in UniquePatientList:**
+* `contains(Patient)` - Checks if a patient exists using `isSamePatient()`
+* `add(Patient)` - Adds a patient with duplicate name checking
+* `remove(Patient)` - Removes a patient using exact equality matching
+* `setPatient(Patient, Patient)` - Updates a patient with uniqueness validation
+
+### Design Considerations:
+**Aspect: How to handle patient identity:**
+* **Alternative 1 (current choice):** Use name as primary identifier
+    * Pros: Simple for users to remember and reference
+    * Cons: Cannot handle patients with identical names
+* **Alternative 2:** Use patient ID as primary identifier
+    * Pros: Guaranteed uniqueness, follows hospital standards
+    * Cons: Less user-friendly, requires users to remember IDs
+
+## Appointment Management Feature
+
+### Implementation
+The appointment management system allows scheduling patient appointments with doctors with built-in conflict detection to prevent double-booking.
+
+**Appointment Entity Structure:**
+```java
+public class Appointment {
+    private final String patientName;    // References patient by name
+    private final LocalDateTime dateTime;
+    private final String doctor;
+    private final String reason;         // Visit purpose/notes
+}
+```
+
+**Key Operations in UniqueAppointmentList:**
+* `contains(Appointment)` - Checks for exact appointment duplicates
+* `add(Appointment)` - Prevents duplicate appointments
+* `remove(Appointment)` - Removes specific appointment matches
+
+**Conflict Detection Implementation:**
+Time slot conflict detection is implemented in `AddAppointmentCommand`:
+```java
+boolean hasClashingAppointment = model.getAddressBook()
+        .getAppointmentList()
+        .stream()
+        .anyMatch(existingAppointment ->
+                existingAppointment.getPatientName().equals(toAdd.getPatientName())
+                        && existingAppointment.getDateTime().equals(toAdd.getDateTime()));
+
+if (hasClashingAppointment) {
+    throw new CommandException(MESSAGE_TIMESLOT_CLASH);
+}
+```
+
+Here's how to incorporate the prescription workflow diagrams into your Implementation section:
+
+## Prescription Management Feature
+
+### Implementation
+The prescription system manages patient medications with comprehensive dosage, frequency, and duration information.
+
+**Prescription Entity Structure:**
+```java
+public class Prescription {
+    private final String patientId;      // References patient by ID
+    private final String medicationName;
+    private final Float dosage;          // In milligrams
+    private final Integer frequency;     // Times per day
+    private final LocalDateTime startDate;
+    private final Integer duration;      // In days
+    private final String note;           // Additional instructions
+}
+```
+
+**Class Structure:**
+The following class diagram shows the relationship between prescription-related classes:
+
+
+**Key Operations in UniquePrescriptionList:**
+* `contains(Prescription)` - Checks for duplicate prescriptions
+* `add(Prescription)` - Prevents duplicate prescriptions
+* `setPrescription(Prescription, Prescription)` - Updates prescriptions with uniqueness validation
+* `remove(Prescription)` - Removes specific prescriptions
+
+### Prescription Addition Workflow
+Adding a prescription involves command parsing, validation, and persistence as shown in the following sequence:
+
+<img src="images/PrescriptionAdditionSequenceDiagram.png" width="800" />
+
+The process follows these steps:
+1. **Command Parsing**: User input is parsed by `AddPrescriptionCommandParser` which extracts and validates all parameters
+2. **Patient Validation**: System verifies the patient exists before creating prescription
+3. **Duplicate Check**: `UniquePrescriptionList` ensures no identical prescription already exists
+4. **Persistence**: New prescription is added to model and saved to storage
+
+**Command Parsing Details:**
+The parsing sequence ensures all required parameters are present and properly formatted:
+
+<img src="images/PrescriptionCommandParsingSequenceDiagram.png" width="500" />
+
+### Prescription Viewing Workflow
+Viewing prescriptions follows a decision-based workflow:
+
+<img src="images/PrescriptionViewingSequenceDiagram.png" width="400" />
+
+Key validation points include:
+- Command format validation
+- Patient existence check
+- Prescription availability check
+
+### Prescription Deletion Workflow
+Deleting prescriptions involves index-based selection and UI updates:
+
+<img src="images/PrescriptionDeletionSequenceDiagram.png" width="600" />
+
+The deletion process:
+1. **Index Validation**: Ensures the provided index is valid within the current filtered list
+2. **Target Identification**: Retrieves the specific prescription to delete
+3. **Removal Execution**: Removes prescription from the model
+4. **UI Update**: Refreshes the displayed prescription list
+5. **Data Persistence**: Saves changes to storage
+
+### Design Considerations:
+**Aspect: Prescription Reference Method**
+* **Current Choice**: Reference patients by ID in prescriptions
+    * Pros: Consistent patient identification, follows database conventions
+    * Cons: Inconsistent with appointments which use patient names
+* **Alternative**: Reference patients by name in all entities
+    * Pros: Uniform reference method across the system
+    * Cons: Potential issues with duplicate patient names
+
+**Aspect: Prescription Uniqueness**
+* **Current Choice**: Exact match on all fields prevents duplicates
+    * Pros: Prevents identical prescriptions for same patient
+    * Cons: May be too restrictive for legitimate duplicate medications
+* **Alternative**: Allow duplicates with different start dates
+    * Pros: Supports medication refills and course repetitions
+    * Cons: Requires more sophisticated duplicate detection
+
+The prescription system provides robust medication management with comprehensive validation and clear user workflows, though some reference consistency issues exist between different entity types.
+
+## Data Integrity Considerations
+
+**Reference Consistency:**
+- Appointments reference patients by name
+- Prescriptions reference patients by ID
+- This inconsistency may complicate data relationships
+
+**Cascading Operations:**
+- Patient deletion does not automatically remove related appointments and prescriptions
 
 ### \[Proposed\] Undo/redo feature
 
