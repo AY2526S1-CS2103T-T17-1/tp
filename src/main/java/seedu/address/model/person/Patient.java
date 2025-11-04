@@ -10,7 +10,7 @@ import java.util.Objects;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Patient {
-    private static final String[] GENDERS = {"MALE", "FEMALE", "OTHER"};
+    private static final String[] GENDERS = {"M", "F", "OTHER"};
 
     // all references to Tag are removed
     private final Name name;
@@ -104,7 +104,7 @@ public class Patient {
             }
         }
 
-        throw new IllegalArgumentException("Gender must be either: MALE, FEMALE, OTHER");
+        throw new IllegalArgumentException("Gender must be either: M, F, OTHER");
     }
 
     /**
