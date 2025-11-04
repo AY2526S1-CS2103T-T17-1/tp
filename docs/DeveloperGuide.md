@@ -685,3 +685,4 @@ testers are expected to do more *exploratory* testing.
     1. Add appointment for John Lee with `a-add n/John Lee d/Dr Wee t/2025-11-11 14:00 note/Follow-up`
     1. Close the application and restart it<br>
        Expected: All John Lee's data (patient info, prescription, appointment) persists and is displayed correctly
+
